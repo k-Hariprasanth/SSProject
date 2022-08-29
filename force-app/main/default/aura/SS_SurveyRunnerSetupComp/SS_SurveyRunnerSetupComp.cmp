@@ -1,0 +1,131 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="SS_SurveyRunnerSetupController" >
+	
+    <aura:handler name="init" value="{!this}" action="{!c.getIsConnect}"/> 
+    
+    <aura:attribute name="showConnectSurvey" type="Boolean" default="false" />
+    <aura:attribute name="showDisConnectSurvey" type="Boolean" default="true" />
+    <aura:attribute name="showConfirmDisconnect" type="Boolean" default="false" />
+    <aura:attribute name="showLoadedSpin" type="Boolean" default="true" />
+    <aura:attribute name="dateCenterValue" type="String" />
+    
+    <aura:attribute name="options" type="List" default="[
+    {'label': 'US', 'value': 'surveysparrow.com'},
+    {'label': 'EU', 'value': 'thrivesparrow.com'}
+    ]"/>
+    <aura:attribute name="surveyURL" type="String" default="surveysparrow.com"/>
+    
+    
+    
+    <div class="outer-container" style="background-color: white;min-height:100%">
+            
+            <div class ="Inner-Container">
+                <aura:if isTrue="{!v.showLoadedSpin}">
+                    
+                        <lightning:spinner alternativeText="Loading" />
+                   
+                </aura:if>
+                
+                <aura:if isTrue="{!v.showConnectSurvey}">
+                    <div style="width: 100%;">
+                       <h1 class="header">Connect to your SurveySparrow account</h1> 
+                        <table style="border: 2px solid;" >
+                            <tr style="height: 15rem;">
+                               
+                                    <lightning:radioGroup name="radioGroup"
+                                                          label="Select Data Center"
+                                                          class="radioBut customRadioCls"
+                                                          options="{! v.options }"
+                                                          value="{! v.surveyURL }"
+                                                          type="radio"/>
+                      
+                                    <lightning:button  variant="brand-outline" label="Connect SurveySparrow" class="connectTriggerButton" onclick="{!c.connectToSurvey}" />
+                                
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="width: 100%;text-align: left;">
+                        <h1 style="font-size: 15px;padding-top: 20px;">Please follow these <a href="{!$Label.c.SS_SetupDetails}" target="_blank">detailed intructions</a> to setup SurveySparrow for Salesforce </h1>
+                       <p style="font-size: 15px;padding-top: 20px;padding-bottom:60px;" >
+                           
+                           Step 1  :	Setup a site and configure webhook to receive responses from SurveySparrow into Salesforce<br/>
+                           Step 2  : Assign 'SurveySparrow' permission set to Site Guest User <br/>
+                           Step 3  : Connect to your SurveySparrow Account above<br/>
+                           Step 4  : Paste the webhook copied in Step 1, here in the setup screen(this URL Will be used by SurveySparrow to send the<br/>
+                           response data to Salesforce)<br/>
+                           Step 5  : In Salesforce identify the object which will trigger the surveys and any fields that will sent to personalize the survey<br/>
+                           Step 6  : (Optional) : Setup lookup field on the Response object for easy lookup during reporting and automation after the survey<br/>
+                           response is received. e.g. You may want to escalate a case to supervisor in case poor feedback on CSAT is received <br/>
+                           Step 7  : Create a Survey Runner<br/>
+                           Survey Runner is a block of functionality that take care of data exchange between Salesforce and SurveySparrow<br/>
+                           Step 8  : Setup a Flow to trigger the Survey Runner at specific event to send out the survey.<br/>
+                           Step 9  : (Optional) : Setup reports and dashboards to view the data<br/>
+                           Step 10 : (Optional) : Setup any automation on the responses	if you want to take any actions after the survey response is received<br/>
+                           Step 11 : Disconnect SurveySparrow connection before uninstall the SurveySparrow package<br/>
+       
+                       </p>
+                   </div>
+                </aura:if>
+              <aura:if isTrue="{!v.showDisConnectSurvey}" >
+                    <div style="width: 100%;">
+                        <h1 class="header">SurveySparrow account is connected</h1>
+                        <table style="border: 2px solid;" >
+                            <tr style="height: 15rem;">
+                                
+                                <p style="padding-left: 40%; padding-top: 8%;">	Datacenter : <aura:text value="{!v.dateCenterValue}"/> </p>
+                                <lightning:button  variant="brand-outline" label="Disconnect SurveySparrow" class="Disconnect" onclick="{!c.DisconnectToSurvey}" />
+                                
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="width: 100%;text-align: left;">
+                        <h1 style="font-size: 15px;padding-top: 20px;">Please follow these <a href="{!$Label.c.SS_SetupDetails}" target="_blank">detailed intructions</a> to setup SurveySparrow for Salesforce </h1>
+                       <p style="font-size: 15px;padding-top: 20px;padding-bottom:60px;" >
+                           Step 1 : Setup a site and configure webhook to receive responses from SurveySparrow into Salesforce<br/>
+                           Step 2 : Assign 'SurveySparrow' permission set to Site Guest User <br/>
+						   Step 3 :	Connect to your SurveySparrow account <br/>
+                           Step 4 : In Salesforce identify the object which will trigger the surveys and any fields that will sent to personalize the survey<br/>
+                           Step 5 : (Optional) :	Setup lookup field on the Response object for easy lookup during reporting and automation after the survey<br/>
+                           response is received. e.g. You may want to escalate a case to supervisor in case poor feedback on CSAT is received <br/>
+                           Step 6 : Create a Survey Runner<br/>
+                           Survey Runner is a block of functionality that take care of data exchange between Salesforce and SurveySparrow<br/>
+                           Step 7 : Setup a Flow to trigger the Survey Runner at specific event to send out the survey.<br/>
+                           Step 8 : (Optional) : Setup reports and dashboards to view the data<br/>
+                           Step 9 : (Optional) : Setup any automation on the response if you want to take any actions after the survey response is received<br/>
+                           Step 10 : Disconnect SurveySparrow connection before uninstall the SurveySparrow package<br/>
+       
+       
+                       </p>
+                   </div>
+                </aura:if>
+               
+             
+            <aura:if isTrue="{!v.showConfirmDisconnect}" >
+
+                    <div role="dialog" class="slds-modal slds-fade-in-open ">
+
+                        <div class="slds-modal__container">
+
+                            <header class="slds-modal__header">
+                                <h1 class="slds-text-heading--medium">Confirmation  Message</h1>
+                            </header>
+
+                            <div class="slds-modal__content slds-p-around--medium">
+                                <center><b>Do you really want to disconnect your SurveySparrow account?</b></center>
+                            </div>
+
+                            <footer class="slds-modal__footer">
+                                <lightning:button name='Cancel' label='Cancel' onclick='{!c.handleConfirmDialogCancel}'/>
+                                <lightning:button variant="brand"  name='Delete' label='Yes' onclick='{!c.conformDisconnectSurvey}'/>
+                            </footer>
+
+                        </div>
+
+                    </div>
+
+                    <div class="slds-backdrop slds-backdrop--open"></div> 
+
+                </aura:if>
+                
+        </div>
+    </div>
+</aura:component>

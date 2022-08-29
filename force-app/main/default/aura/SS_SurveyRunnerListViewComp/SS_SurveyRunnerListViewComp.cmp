@@ -1,0 +1,103 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="SS_SurveyRunnerListViewController" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> 
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+    <aura:attribute name="surveyRunnerId" type="String" />
+    <aura:attribute name="showDeleteBox" type="Boolean" default="false" />
+    <aura:attribute name="showListView" type="boolean" default="true" />
+    <aura:attribute name="showCreatePage" type="boolean" default="false" />
+    
+    <aura:if isTrue="{!v.showCreatePage}">
+        {!v.body} 
+    </aura:if>
+    <aura:if isTrue="{!v.loaded }">
+        
+        <lightning:spinner alternativeText="Loading"  class="slds-is-fixed"/>
+        
+    </aura:if>
+
+    <aura:if isTrue="{!v.showListView}">
+    <div class="outer-container" style="background-color: white;min-height:100%" >
+        <div class ="Inner-Container">
+            <div class="slds-grid" style="width:100%;">
+                
+                <p style="padding-top: 20px;font-size: 15px;">Survey Runner manages the data exchange between Salesforce and SurveySparrow and runs the<br/>
+                    surveys<a href="{!$Label.c.SS_SurveyRunnerListViewLink}" target="_blank"> More details</a></p>
+                <lightning:button  variant="brand"  label="Create" class="createTriggerButton" onclick="{!c.createSurveyRunner}"/>
+            </div>
+            
+            <div class="slds-scrollable_y" style="height:20rem;width:60rem;padding-top: 40px;">
+ 
+                <table style="width:100%;" class="tableStyle trowDate" >
+                    <tr style="height:45px;" class="trowDate">
+                        <th style="padding-left: 10px;">Name</th>
+                        <th style="padding-left: 10px;">Object</th>
+                        <th style="padding-left: 10px;">Action</th>
+                    </tr>
+                    <aura:iteration items="{!v.data}" var="surveyTrigger">
+                        <tr style="height:45px;" class="trowDate">
+                            
+                            
+                            <td style="width:45%;vertical-align: middle;padding-left:10px" class="trowDate">
+                                 {!surveyTrigger.Name}
+                            </td>
+                            
+                            <td style="width:35%;vertical-align: middle;padding-left: 10px;" class="trowDate">
+                                {!surveyTrigger.SSPR__SS_Object_Name__c}
+                            </td>
+                            
+                            <td style="width:20%;vertical-align: middle;padding-left: 40px;" class="trowDate">
+                                
+                                <!--  <lightning:icon iconName="utility:edit" alternativeText="edit" title="edit" style="padding-left: 25px;width:10%;" onclick="{!c.editSurveyRunner}" />  -->
+                                
+                                <lightning:buttonIcon iconName="utility:edit" variant="bare" size="large" value="{!surveyTrigger.Id}" onclick="{!c.editSurveyRunner}" alternativeText="edit" title="edit" class="editIconButton" />
+                                <lightning:buttonIcon iconName="utility:delete" variant="bare" size="large" value="{!surveyTrigger.Id}" onclick="{!c.deleteSurveyRunner}" alternativeText="delete" title="delete" class="deleteIconButton" />
+                                
+                                
+                            </td>
+                            
+                        </tr>
+                    </aura:iteration>    
+                </table>
+                        
+                   
+               
+            </div>
+            <aura:if isTrue="{!v.showDeleteBox}">
+
+                    <div role="dialog" class="slds-modal slds-fade-in-open ">
+
+                        <div class="slds-modal__container">
+
+                            <header class="slds-modal__header" style="background-color: #F3F2F2;">
+                                <h1 class="slds-text-heading--medium" style="color:red">Delete Confirmation.</h1>
+                            </header>
+
+                            <div class="slds-modal__content slds-p-around--medium">
+                                <center>
+                                    <h1 class="slds-text-heading--medium">
+                                        You are about to delete this trigger. <br />
+                                        It cannot be restored at a later time! Do you wish to continue?
+                                    </h1>
+                                </center>
+                            </div>
+
+                            <footer class="slds-modal__footer">
+                                <lightning:button variant="brand-outline" name='Cancel' label='Cancel' onclick='{!c.handleCancelDelete}'/>
+                                <lightning:button variant="destructive" name='Delete' label='Delete' onclick='{!c.handleConfirmDelete}'/>
+                            </footer>
+
+                        </div>
+
+                    </div>
+
+                    <div class="slds-backdrop slds-backdrop--open"></div> 
+
+                </aura:if>
+            
+        </div>
+    </div>
+    </aura:if>
+  
+</aura:component>

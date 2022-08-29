@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SS_Send_Survey_Via__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <label>Send Survey Via</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>EMAIL</fullName>
+                <default>false</default>
+                <label>EMAIL</label>
+            </value>
+            <value>
+                <fullName>SMS</fullName>
+                <default>false</default>
+                <label>SMS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

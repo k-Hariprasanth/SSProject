@@ -1,0 +1,7 @@
+<apex:page controller="SS_SurveySparrowOAuthController" action="{!auth_Step_1}">
+    <br/><br/>
+    <h3>
+        {!statusMessage}
+    </h3>
+    
+</apex:page>

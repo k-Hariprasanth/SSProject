@@ -1,0 +1,22 @@
+<apex:page sidebar="false">
+
+    <apex:includeLightning />
+
+    <div id="compContainer" /> 
+
+    <script>
+    
+        $Lightning.use("SSPR:SS_Classic_Survey_Sparrow_App", function() {
+        
+            $Lightning.createComponent(
+                "SSPR:SS_SurveyRunnerListViewComp",
+                {ButtonShow: true},
+                "compContainer",
+                 function(cmp) {
+                     console.log("c:VFPageApp loaded successfully in VF page");
+                 }
+             );
+        });
+        
+    </script>
+</apex:page>

@@ -1,0 +1,293 @@
+<!--******************************************************************************
+*@Component  Name: SS_EditSurveyRunnerComp 
+*@Apex Controller: SS_CreateSurveyRunnerController
+*@DESCRIPTION: This Component used to Create new SurveySparrow Runner
+*******************************************************************************
+* DEVELOPER                   DATE (MM/DD/YYYY)     REASON
+*******************************************************************************
+* Sugumar                    12/20/2021             Created
+******************************************************************************-->
+
+<aura:component  implements="force:appHostable,flexipage:availableForAllPageTypes" controller="SS_EditSurveyRunnerController" access="global">
+    
+     <aura:handler name="init" value="{!this}" action="{!c.initobjectGetter}"/> 
+    
+    
+    <aura:attribute name="showLookUp" type="Boolean" default="false" />
+   
+    <aura:attribute name="lauchFlow" type="Boolean" default="False"/>
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+    <aura:attribute name="fieldsNameList" type="Object" />
+    <aura:attribute name="surveyRunnerId" type="String" />
+    <aura:attribute name="dataWrapper" type="Object" />
+    <aura:attribute name="objectFields" type="List" />
+    <aura:attribute name="rateObjectFields" type="List"/>
+    <aura:attribute name="commentsObjectFields" type="List" />
+    <aura:attribute name="sObjectViaFields" type="List" />
+    <aura:attribute name="oldObjectFieldList" type="List" />
+    <aura:attribute name="lookUpFieldsList" type="List" />
+     <aura:attribute name="surveyNameList" type="List" />
+    <aura:attribute name="surveyShareTypeTemp" type="List" />    
+    
+    <aura:attribute name="showListView" type="Boolean"  Default="false"/>
+    <aura:attribute name="showEditPage" type="Boolean" Default="true"/>
+   
+    <aura:if isTrue="{!v.showListView}">
+        {!v.body} 
+    </aura:if>
+    <aura:if isTrue="{!v.loaded }">
+        
+        <lightning:spinner   class="slds-is-fixed"/>
+        
+    </aura:if>
+    
+    <aura:if isTrue="{!v.showEditPage}">
+        
+        <div class="outer-container" style="background-color: white;min-height:100%">
+            
+            <div class ="Inner-Container " style="background-color: #EAEAEA;">
+                
+                <p style="padding-top: 15px;font-size: 15px;padding-bottom: 15px;">A Survey runner sends the survey, collects the response from users and syncs the data to salesforce</p>
+                <table class="slds-box" style="border: none;">
+                    <tr style="background-color:white;box-shadow: 5px 5px 5px lightgrey;" class="slds-box">
+                        <div class='content' style="padding-top:20px;padding-left: 10px;padding-bottom:15px">
+                            
+                            
+                            
+                            <div class='top'>
+                                
+                                <div class='slds-grid'>
+                                    
+                                    <lightning:input class='inputTextBox' required="true" aura:id="validData" label='Name' value="{!v.dataWrapper.runnerName}" />
+                                    <lightning:input class='descrip' label='Description' value="{!v.dataWrapper.description}" />
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </tr>
+                    <p style="padding-top:20px"></p>
+                    <tr style="background-color:white;padding-top:20px;box-shadow: 5px 5px 5px lightgrey;" class="slds-box">
+                        <div class='content' style="padding-top:20px;padding-left: 10px;">
+                            
+                            <h1 class='heading' style="font-size:14px">Configure Survey and  Object</h1>
+                            <table style="margin-top: 10px;margin-bottom: 10px;">
+                                <tr style="width:100%;">
+                                    <td style="width:6%;">
+                                        <p style="padding-top: 22px; padding-left: 10px;">Setup</p> 
+                                    </td>
+                                    <td	style="width:30%;">
+                                        <lightning:select  value="{!v.dataWrapper.seletedSurveyName}" required="true" aura:id="validData2"   class="surveySelectBox" onchange="{!c.sendSurveyViaTypeFields}" >
+                                            <option value="" text="--None--" />
+                                            <aura:iteration items="{!v.dataWrapper.surveyNameList}" var="survey">
+                                                <option value="{!survey.value}" text="{!survey.text}" selected = "{!v.dataWrapper.seletedSurveyName == survey.value}"/>  
+                                            </aura:iteration>
+                                            
+                                        </lightning:select>
+                                    </td>
+                                    <td	style="width:64%;">
+                                        <p style="padding-top: 25px;padding-left: 15px;">Survey</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table style="margin-top: 10px;margin-bottom: 10px;">
+                                <tr style="width:100%;">
+                                    <td style="width:6%;">
+                                        <p style="padding-top: 25px;padding-left: 10px;">for</p>  
+                                    </td>
+                                    <td	style="width:30%;">
+                                        <lightning:select  value="{!v.dataWrapper.selectedObject}" disabled="true" readonly="true" aura:id="validData"  class="objectSelectBox" onchange="{!c.getObjectFields}">
+                                            <option value="" text="--None--" />
+                                            <aura:iteration items="{!v.dataWrapper.objectNameList}" var="obj">
+                                                <option value="{!obj}" text="{!obj}" selected = "{!v.dataWrapper.selectedObject == obj}"/>  
+                                            </aura:iteration>
+                                            
+                                        </lightning:select>
+                                    </td>
+                                    <td	style="width:64%;">
+                                        <p style=" padding-top: 25px;padding-left: 11px;">object</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                        </div>
+                        
+                        
+                        <div class='content' style="padding-top:20px;padding-left: 10px;padding-bottom: 20px;">
+                            
+                            
+                            
+                            <h1  style="font-size:13px;margin-left:7px;">and send following fields to the SurveySparrow</h1>
+                            
+                            <div class="slds-scrollable_y" style="height:10rem;width:19.5rem;background-color: #EAEAEA;margin-top: 6px;margin-left: 7px;">
+                                
+                                <table  class="fieldTableStyle">
+                                    <aura:iteration items="{!v.dataWrapper.selectedFieldWrapper}" var="field">
+                                        <tr style="line-height: 2.5rem;">
+                                            <td style="width:3%;vertical-align: middle;">
+                                                <ui:inputCheckbox  aura:Id="green-checkbox" class="green-checkbox" value="{!field.isSelected}" disabled="{!field.disabledvalue}"/>  
+                                            </td>
+                                            
+                                            <td style="width:50%;vertical-align: middle;padding-left:5px">
+                                                {!field.fieldApiName}
+                                            </td>
+                                            
+                                        </tr>
+                                    </aura:iteration>
+                                </table>
+                            </div>
+                            <p style="padding-top: 15px;padding-left: 10px;"> * ID is required to sync the survey responses correctly</p>
+                            
+                        </div>
+                    </tr> 
+                    <p style="padding-top:20px"></p>
+                    <tr style="background-color:white;padding-top:20px;box-shadow: 5px 5px 5px lightgrey;" class="slds-box">
+                        <div>
+                            
+                            <div  style="padding-top:20px;padding-left:10px;text-align: left;">
+                                <h1 class='heading' style="font-size:14px">Additional Settings</h1>
+                                <table style="margin-top: 10px;margin-bottom: 10px;">
+                                    <tr> 
+                                        <td style="width:12%;">
+                                            <p style="     padding-top: 15px;padding-left: 10px;">Send Survey via</p>   
+                                        </td>
+                                        <td style="width:88%;">
+                                            <lightning:select  value="{!v.dataWrapper.sendSurveyType}" aura:id="validData"  required="true" class="sendSurveyBox" onchange="{!c.sendSurveyViaTypeFields}">
+                                                <option value="" text="--None--" />
+                                                <aura:iteration items="{!v.dataWrapper.surveyViaTypes}" var="viaTypes">
+                                                    <option value="{!viaTypes}" text="{!viaTypes}" selected = "{!v.dataWrapper.sendSurveyType == viaTypes}"/>  
+                                                </aura:iteration>
+                                                
+                                            </lightning:select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                   <table style="margin-top: 10px;margin-bottom: 10px;">
+                                    <tr> 
+                                        <td style="width:12%;">
+                                            <p style="padding-left: 10px;padding-top:10px">Select Share</p>  
+                                        </td>
+                                        <td style="width:88%;">
+                                            <lightning:select  value="{!v.dataWrapper.surveyShareTempId}"  aura:id="validData" required="true" class="sendSurveyTypeBox" >
+                                                <option value="" text="--None--" />
+                                                <aura:iteration items="{!v.surveyShareTypeTemp}" var="ss">
+                                                    <option value="{!ss.shareExternalId}" text="{!ss.shareName}" selected = "{!v.dataWrapper.surveyShareTempId == ss.shareExternalId}"/>  
+                                                </aura:iteration>
+                                                
+                                            </lightning:select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table style="margin-top: 10px;margin-bottom: 10px;">
+                                    <tr> 
+                                        <td style="width:12%;">
+                                            <p style="padding-left: 10px;">Send Survey to</p>  
+                                        </td>
+                                        <td style="width:88%;">
+                                            <lightning:select  value="{!v.dataWrapper.sendSurveyFields}"  aura:id="validData" required="true" class="surveyToBox" >
+                                                <option value="" text="--None--" />
+                                                <aura:iteration items="{!v.sObjectViaFields}" var="viaTypesFields">
+                                                    <option value="{!viaTypesFields}" text="{!viaTypesFields}" selected = "{!v.dataWrapper.sendSurveyFields == viaTypesFields}"/>  
+                                                </aura:iteration>
+                                                
+                                            </lightning:select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                            </div> 
+                        </div>
+                    </tr>  
+                    <p style="padding-top:20px"></p>
+                    <tr style="background-color:white;padding-top:20px;box-shadow: 5px 5px 5px lightgrey;" class="slds-box">
+                        <div style="padding-top:20px;padding-left:10px;text-align: left;">
+                            <h1 class='heading' style="font-size:14px">Map survey responses to record</h1>
+                            <table style="margin-top: 10px;margin-bottom: 10px;">
+                                <tr> 
+                                    <td style="width:15%;">
+                                        <p style="padding-top: 22px; padding-left: 15px;">Rate your latest interaction</p>   
+                                    </td>
+                                    <td style="width:65%;">
+                                        <lightning:select  value="{!v.dataWrapper.rateField}"  aura:Id="selectedObject"  class="rateBox" >
+                                            <option value="" text="--None--" />
+                                            <aura:iteration items="{!v.dataWrapper.rateYourInteractionFieldList}" var="objfields">
+                                                <option value="{!objfields}" text="{!objfields}" selected = "{!v.dataWrapper.rateField == objfields}"/>  
+                                            </aura:iteration>
+                                            
+                                        </lightning:select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table style="margin-top: 10px;margin-bottom: 10px;">
+                                <tr> 
+                                    <td style="width:15%;">
+                                        <p style="padding-left: 15px;">Additional Comments</p>  
+                                    </td>
+                                    <td style="width:81%;">
+                                        <lightning:select  value="{!v.dataWrapper.additionalComField}"  aura:Id="selectedObject"  class="commentsBox" >
+                                            <option value="" text="--None--" />
+                                            <aura:iteration items="{!v.dataWrapper.additionalCommentsFieldList}" var="objfields">
+                                                <option value="{!objfields}" text="{!objfields}" selected = "{!v.dataWrapper.additionalComField == objfields}"/>  
+                                            </aura:iteration>
+                                            
+                                        </lightning:select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class='slds-grid'>
+                                <lightning:input type="toggle" style="padding-left:7px;padding-bottom: 15px;color:green;" class="green-toggleBox"	aura:id="chkbox" onclick="{!c.showLookupBox}" messageToggleActive="" messageToggleInactive="" />
+                                <p style="padding-left: 15px;    padding-top: 3px;">Add a lookup relation between Object record and Response Record <a href="{!$Label.c.SS_EditRunnerLookupLink}" target="_blank"> more details</a></p>
+                                
+                            </div>
+                            <table style="margin-top: 10px;margin-bottom: 10px;">
+                                <tr> 
+                                    <aura:if isTrue="{!v.showLookUp}" >
+                                        <td style="width:15%;">
+                                            <p style="padding-left: 15px;">Select Lookup Field</p>  
+                                        </td>
+                                        <td style="width:85%;">
+                                            <lightning:select  value="{!v.dataWrapper.objectLookUpField}"   class="commentsBox" aura:id="validData" required="true">
+                                                <option value="" text="--None--" />
+                                                <aura:iteration items="{!v.dataWrapper.objectLooupListField}" var="lookUpField">
+                                                    <option value="{!lookUpField}" text="{!lookUpField}" selected = "{!v.dataWrapper.objectLookUpField == lookUpField}"/>  
+                                                </aura:iteration>
+                                                
+                                            </lightning:select>
+                                        </td>
+                                    </aura:if>
+                                    
+                                </tr>
+                            </table>
+                            
+                        </div>  
+                    </tr>
+                    
+                    <tr style="width:100%;text-align:center;">
+                        <div style="margin-top:20px;padding-left:7px">
+                            
+                            <div >
+                                
+                                
+                                <p> Please Setup a Flow to trigger the Survey Runner to send out the survey. <a href="{!$Label.c.SS_EditRunnerFlowLink}" target="_blank"> more details</a><br/></p>
+          
+                                
+                                <div class='slds-grid'>
+                                    <lightning:button label="Cancel" class='cancelEditButton' iconPosition="left" variant="brand-outline" onclick="{!c.backToRunnerList}" />
+                                    <lightning:button label="Save" class='saveButton'  iconPosition="left" variant="brand" onclick="{!c.updateSurveyRunner}" />
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </tr>
+                                       
+                    
+                </table>
+            </div>
+            
+        </div>
+        
+    </aura:if>
+    
+</aura:component>

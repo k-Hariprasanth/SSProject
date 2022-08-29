@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#5459EE</headerColor>
+        <logo>surveysparrowLogo</logo>
+        <logoVersion>1</logoVersion>
+        <shouldOverrideOrgTheme>true</shouldOverrideOrgTheme>
+    </brand>
+    <description>Survey Sparrow lightning application</description>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>SurveySparrow</label>
+    <navType>Standard</navType>
+    <tabs>Setup</tabs>
+    <tabs>Survey_Runners</tabs>
+    <tabs>SS_Answer__c</tabs>
+    <tabs>standard-report</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Survey_Sparrow_Lightning_UtilityBar</utilityBar>
+</CustomApplication>

@@ -1,0 +1,38 @@
+.THIS  .Inner-Container{
+    max-width: 1000px;
+    
+    margin: auto;
+    background: white;
+    padding: 5px;
+}
+.THIS .createTriggerButton{
+   
+    margin-top: 20px;
+    
+    margin-left: 23%;
+    width: 100px;
+    height: 40px;
+}
+.THIS .tableStyle{
+    border: 1px  solid #EAEAEA;
+  border-collapse: collapse;
+    border-width: 2px;
+    padding: 8px;
+    text-align: left;
+}
+.THIS .trowDate{
+    border: 1px solid #EAEAEA;
+  border-collapse: collapse;
+    border-width: 2px;
+}
+.THIS th{
+    border: 2.5px solid #EAEAEA;
+}
+.THIS .editIconButton{
+    margin-left: 20px;
+    width:10%;
+}
+.THIS .deleteIconButton{
+   width:10%;
+   padding-left: 30px;
+}

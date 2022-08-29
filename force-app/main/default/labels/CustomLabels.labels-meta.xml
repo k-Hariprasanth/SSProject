@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>SS_CreateRunnerFlowLink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SS_CreateRunnerFlowLink</shortDescription>
+        <value>https://developer.salesforce.com/developer-centers/integration-apis</value>
+    </labels>
+    <labels>
+        <fullName>SS_CreateRunnerLookupLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_CreateRunnerLookupLink</shortDescription>
+        <value>https://developer.salesforce.com/developer-centers/integration-apis</value>
+    </labels>
+    <labels>
+        <fullName>SS_EditRunnerFlowLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_EditRunnerFlowLink</shortDescription>
+        <value>https://developer.salesforce.com/developer-centers/integration-apis</value>
+    </labels>
+    <labels>
+        <fullName>SS_EditRunnerLookupLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_EditRunnerLookupLink</shortDescription>
+        <value>https://developer.salesforce.com/developer-centers/integration-apis</value>
+    </labels>
+    <labels>
+        <fullName>SS_SetupDetails</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_SetupDetails</shortDescription>
+        <value>https://developer.salesforce.com/developer-centers/integration-apis</value>
+    </labels>
+    <labels>
+        <fullName>SS_SurveyRunnerListViewLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS_SurveyRunnerListViewLink</shortDescription>
+        <value>https://developer.salesforce.com/developer-centers/integration-apis</value>
+    </labels>
+    <labels>
+        <fullName>Test_transltion_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Test transltion label</shortDescription>
+        <value>Hi Hello</value>
+    </labels>
+    <labels>
+        <fullName>auth_code</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>auth code</shortDescription>
+        <value>_ugW0suP5n0OLA3VvyR7XmM9E-vjjJfvRI9a7lGlqXw</value>
+    </labels>
+</CustomLabels>
