@@ -1,12 +1,12 @@
 public class EditObjectWrapperClass {
-    
+    //wrppr clas
     @AuraEnabled
         public string runnerName{get;set;}
 
         @AuraEnabled
         public String description{get;set;}
 
-        @AuraEnabled
+        @AuraEnabled 
         public List<surveyList> surveyNameList;
 
         @AuraEnabled
